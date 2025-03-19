@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Rechercher un utilisateur</h2>
+    <form method="POST">
+        <input type="text" name="mot_cle" placeholder="Nom, prénom ou email" required>
+        <button type="submit">Rechercher</button>
+    </form>
+
+    {% if utilisateurs %}
+        <h3>Résultats de la recherche :</h3>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Email</th>
+            </tr>
+            {% for utilisateur in utilisateurs %}
+            <tr>
+                <td>{{ utilisateur.id }}</td>
+                <td>{{ utilisateur.nom }}</td>
+                <td>{{ utilisateur.prenom }}</td>
+                <td>{{ utilisateur.email }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>Aucun utilisateur trouvé.</p>
+    {% endif %}
+{% endblock %}
