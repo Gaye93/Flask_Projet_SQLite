@@ -2,6 +2,14 @@
 
 {% block content %}
     <h2>Gestion des Utilisateurs</h2>
+    
+    <!-- Formulaire de recherche -->
+    <form method="POST" action="{{ url_for('recherche_utilisateur') }}" style="margin-bottom: 20px;">
+        <input type="text" name="mot_cle" placeholder="Rechercher un utilisateur" required>
+        <button type="submit">Rechercher</button>
+    </form>
+
+    <!-- Liste des utilisateurs -->
     <table>
         <tr>
             <th>ID</th>
