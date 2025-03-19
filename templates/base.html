@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestion de la Bibliothèque</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Bibliothèque en ligne</h1>
+        <nav>
+            <a href="{{ url_for('accueil') }}">Accueil</a>
+            <a href="{{ url_for('livres') }}">Livres</a>
+            <a href="{{ url_for('gestion_utilisateurs') }}">Utilisateurs</a>
+            <a href="{{ url_for('gestion_stocks') }}">Stocks</a>
+        </nav>
+    </header>
+    <main>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </main>
+    <footer>
+        <p>&copy; 2023 Bibliothèque. Tous droits réservés.</p>
+    </footer>
+</body>
+</html>
