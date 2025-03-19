@@ -8,12 +8,13 @@
 <body>
     <header>
         <h1>Bibliothèque en ligne</h1>
-        <nav>
-            <a href="{{ url_for('accueil') }}">Accueil</a>
-            <a href="{{ url_for('livres') }}">Livres</a>
-            <a href="{{ url_for('gestion_utilisateurs') }}">Utilisateurs</a>
-            <a href="{{ url_for('gestion_stocks') }}">Stocks</a>
-        </nav>
+            <nav>
+                <a href="{{ url_for('accueil') }}">Accueil</a>
+                <a href="{{ url_for('livres') }}">Livres</a>
+                <a href="{{ url_for('gestion_utilisateurs') }}">Utilisateurs</a>
+                <a href="{{ url_for('gestion_stocks') }}">Stocks</a>
+                <a href="{{ url_for('recherche_utilisateur') }}">Rechercher un utilisateur</a>
+            </nav>
     </header>
     <main>
         {% with messages = get_flashed_messages() %}
