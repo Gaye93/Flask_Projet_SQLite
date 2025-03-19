@@ -16,20 +16,6 @@ def est_authentifie():
 def hello_world():
     return render_template('hello.html')
 
-@app.route('/lecture')
-def lecture():
-    # Connexion à la base de données bibliotheque.db
-    conn = sqlite3.connect('bibliotheque.db')
-    cursor = conn.cursor()
-
-    # Récupérer tous les livres depuis la table Livres
-    cursor.execute('SELECT * FROM Livres;')
-    data = cursor.fetchall()
-    conn.close()
-
-    # Passer les données au template livres.html
-    return render_template('livres.html', data=data)
-
 @app.route('/authentification', methods=['GET', 'POST'])
 def authentification():
     if request.method == 'POST':
@@ -82,23 +68,100 @@ def enregistrer_client():
     conn.close()
     return redirect('/consultation/')  # Rediriger vers la page d'accueil après l'enregistrement
 
+# Page d'accueil
+@app.route('/')
+def accueil():
+    return render_template('base.html')
+
+# Lister tous les livres
 @app.route('/livres')
-def liste_livres():
-    if not est_authentifie():
-        # Rediriger vers la page d'authentification si l'utilisateur n'est pas authentifié
-        return redirect(url_for('authentification'))
-
-    # Connexion à la base de données bibliotheque.db
-    conn = sqlite3.connect('bibliotheque.db')
-    cursor = conn.cursor()
-
-    # Récupérer tous les livres depuis la table Livres
-    cursor.execute('SELECT * FROM Livres;')
-    data = cursor.fetchall()
+def livres():
+    conn = get_db_connection()
+    livres = conn.execute('SELECT * FROM Livres').fetchall()
     conn.close()
+    return render_template('livres.html', livres=livres)
 
-    # Passer les données au template livres.html
-    return render_template('livres.html', data=data)
+# Ajouter un livre
+@app.route('/ajouter_livre', methods=['GET', 'POST'])
+def ajouter_livre():
+    if request.method == 'POST':
+        titre = request.form['titre']
+        auteur = request.form['auteur']
+        isbn = request.form['isbn']
+        genre = request.form['genre']
+        date_publication = request.form['date_publication']
+        quantite_disponible = request.form['quantite_disponible']
+
+        conn = get_db_connection()
+        conn.execute('INSERT INTO Livres (titre, auteur, isbn, genre, date_publication, quantite_disponible) VALUES (?, ?, ?, ?, ?, ?)',
+                     (titre, auteur, isbn, genre, date_publication, quantite_disponible))
+        conn.commit()
+        conn.close()
+        flash('Livre ajouté avec succès !')
+        return redirect(url_for('livres'))
+
+    return render_template('ajouter_livre.html')
+
+# Supprimer un livre
+@app.route('/supprimer_livre/<int:id>', methods=['POST'])
+def supprimer_livre(id):
+    conn = get_db_connection()
+    conn.execute('DELETE FROM Livres WHERE id = ?', (id,))
+    conn.commit()
+    conn.close()
+    flash('Livre supprimé avec succès !')
+    return redirect(url_for('livres'))
+
+# Rechercher des livres
+@app.route('/recherche_livre', methods=['GET', 'POST'])
+def recherche_livre():
+    if request.method == 'POST':
+        mot_cle = request.form['mot_cle']
+        conn = get_db_connection()
+        livres = conn.execute('SELECT * FROM Livres WHERE titre LIKE ? OR auteur LIKE ?', 
+                             (f'%{mot_cle}%', f'%{mot_cle}%')).fetchall()
+        conn.close()
+        return render_template('recherche_livre.html', livres=livres)
+
+    return render_template('recherche_livre.html')
+
+# Emprunter un livre
+@app.route('/emprunter_livre/<int:id>', methods=['GET', 'POST'])
+def emprunter_livre(id):
+    if request.method == 'POST':
+        utilisateur_id = request.form['utilisateur_id']
+        conn = get_db_connection()
+        livre = conn.execute('SELECT * FROM Livres WHERE id = ?', (id,)).fetchone()
+
+        if livre['quantite_disponible'] > 0:
+            conn.execute('UPDATE Livres SET quantite_disponible = quantite_disponible - 1 WHERE id = ?', (id,))
+            conn.execute('INSERT INTO Emprunts (id_utilisateur, id_livre) VALUES (?, ?)', 
+                         (utilisateur_id, id))
+            conn.commit()
+            flash('Livre emprunté avec succès !')
+        else:
+            flash('Ce livre n\'est plus disponible.')
+
+        conn.close()
+        return redirect(url_for('livres'))
+
+    return render_template('emprunter_livre.html', livre_id=id)
+
+# Gestion des utilisateurs
+@app.route('/gestion_utilisateurs')
+def gestion_utilisateurs():
+    conn = get_db_connection()
+    utilisateurs = conn.execute('SELECT * FROM Utilisateurs').fetchall()
+    conn.close()
+    return render_template('gestion_utilisateurs.html', utilisateurs=utilisateurs)
+
+# Gestion des stocks
+@app.route('/gestion_stocks')
+def gestion_stocks():
+    conn = get_db_connection()
+    stocks = conn.execute('SELECT * FROM Livres').fetchall()
+    conn.close()
+    return render_template('gestion_stocks.html', stocks=stocks)
                                                                                                                                        
 if __name__ == "__main__":
   app.run(debug=True)
