@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Emprunter un livre</h2>
+    <form method="POST">
+        <label for="utilisateur_id">ID Utilisateur :</label>
+        <input type="number" id="utilisateur_id" name="utilisateur_id" required>
+        <button type="submit">Emprunter</button>
+    </form>
+{% endblock %}
