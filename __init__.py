@@ -69,7 +69,7 @@ def enregistrer_client():
     return redirect('/consultation/')  # Rediriger vers la page d'accueil après l'enregistrement
 
 # Page d'accueil
-@app.route('/')
+@app.route('/accueil')
 def accueil():
     return render_template('base.html')
 
@@ -162,7 +162,7 @@ def gestion_stocks():
     stocks = conn.execute('SELECT * FROM Livres').fetchall()
     conn.close()
     return render_template('gestion_stocks.html', stocks=stocks)
-                                                                                                                                       
+                                                                                                   
 if __name__ == "__main__":
   app.run(debug=True)
  
