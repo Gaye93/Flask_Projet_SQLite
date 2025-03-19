@@ -2,7 +2,17 @@
 
 {% block content %}
     <h2>Liste des Livres</h2>
+    
+    <!-- Formulaire de recherche -->
+    <form method="POST" action="{{ url_for('recherche_livre') }}" style="margin-bottom: 20px;">
+        <input type="text" name="mot_cle" placeholder="Rechercher un livre" required>
+        <button type="submit">Rechercher</button>
+    </form>
+
+    <!-- Bouton pour ajouter un livre -->
     <a href="{{ url_for('ajouter_livre') }}">Ajouter un livre</a>
+
+    <!-- Liste des livres -->
     <table>
         <tr>
             <th>ID</th>
