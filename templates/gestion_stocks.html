@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Gestion des Stocks</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Titre</th>
+            <th>Quantité Disponible</th>
+        </tr>
+        {% for stock in stocks %}
+        <tr>
+            <td>{{ stock.id }}</td>
+            <td>{{ stock.titre }}</td>
+            <td>{{ stock.quantite_disponible }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
