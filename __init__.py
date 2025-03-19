@@ -18,12 +18,17 @@ def hello_world():
 
 @app.route('/lecture')
 def lecture():
-    if not est_authentifie():
-        # Rediriger vers la page d'authentification si l'utilisateur n'est pas authentifié
-        return redirect(url_for('authentification'))
+    # Connexion à la base de données bibliotheque.db
+    conn = sqlite3.connect('bibliotheque.db')
+    cursor = conn.cursor()
 
-  # Si l'utilisateur est authentifié
-    return "<h2>Bravo, vous êtes authentifié</h2>"
+    # Récupérer tous les livres depuis la table Livres
+    cursor.execute('SELECT * FROM Livres;')
+    data = cursor.fetchall()
+    conn.close()
+
+    # Passer les données au template livres.html
+    return render_template('livres.html', data=data)
 
 @app.route('/authentification', methods=['GET', 'POST'])
 def authentification():
