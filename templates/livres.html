@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des Livres</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <h1>Liste des Livres</h1>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Titre</th>
+            <th>Auteur</th>
+            <th>ISBN</th>
+            <th>Genre</th>
+            <th>Date de Publication</th>
+            <th>Quantité Disponible</th>
+        </tr>
+        {% for row in data %}
+        <tr>
+            <td>{{ row[0] }}</td> <!-- ID -->
+            <td>{{ row[1] }}</td> <!-- Titre -->
+            <td>{{ row[2] }}</td> <!-- Auteur -->
+            <td>{{ row[3] }}</td> <!-- ISBN -->
+            <td>{{ row[4] }}</td> <!-- Genre -->
+            <td>{{ row[5] }}</td> <!-- Date de Publication -->
+            <td>{{ row[6] }}</td> <!-- Quantité Disponible -->
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
