@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Ajouter un livre</h2>
+    <form method="POST">
+        <label for="titre">Titre :</label>
+        <input type="text" id="titre" name="titre" required>
+        <label for="auteur">Auteur :</label>
+        <input type="text" id="auteur" name="auteur" required>
+        <label for="isbn">ISBN :</label>
+        <input type="text" id="isbn" name="isbn" required>
+        <label for="genre">Genre :</label>
+        <input type="text" id="genre" name="genre">
+        <label for="date_publication">Date de Publication :</label>
+        <input type="date" id="date_publication" name="date_publication">
+        <label for="quantite_disponible">Quantité Disponible :</label>
+        <input type="number" id="quantite_disponible" name="quantite_disponible" required>
+        <button type="submit">Ajouter</button>
+    </form>
+{% endblock %}
