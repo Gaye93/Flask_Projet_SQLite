@@ -76,6 +76,24 @@ def enregistrer_client():
     conn.commit()
     conn.close()
     return redirect('/consultation/')  # Rediriger vers la page d'accueil après l'enregistrement
+
+@app.route('/livres')
+def liste_livres():
+    if not est_authentifie():
+        # Rediriger vers la page d'authentification si l'utilisateur n'est pas authentifié
+        return redirect(url_for('authentification'))
+
+    # Connexion à la base de données bibliotheque.db
+    conn = sqlite3.connect('bibliotheque.db')
+    cursor = conn.cursor()
+
+    # Récupérer tous les livres depuis la table Livres
+    cursor.execute('SELECT * FROM Livres;')
+    data = cursor.fetchall()
+    conn.close()
+
+    # Passer les données au template livres.html
+    return render_template('livres.html', data=data)
                                                                                                                                        
 if __name__ == "__main__":
   app.run(debug=True)
