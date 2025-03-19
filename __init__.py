@@ -162,6 +162,20 @@ def gestion_utilisateurs():
     conn.close()
     return render_template('gestion_utilisateurs.html', utilisateurs=utilisateurs)
 
+@app.route('/recherche_utilisateur', methods=['GET', 'POST'])
+def recherche_utilisateur():
+    if request.method == 'POST':
+        mot_cle = request.form['mot_cle']
+        conn = get_db_connection()
+        utilisateurs = conn.execute(
+            'SELECT * FROM Utilisateurs WHERE nom LIKE ? OR prenom LIKE ? OR email LIKE ?',
+            (f'%{mot_cle}%', f'%{mot_cle}%', f'%{mot_cle}%')
+        ).fetchall()
+        conn.close()
+        return render_template('recherche_utilisateur.html', utilisateurs=utilisateurs)
+
+    return render_template('recherche_utilisateur.html')
+
 # Gestion des stocks
 @app.route('/gestion_stocks')
 def gestion_stocks():
