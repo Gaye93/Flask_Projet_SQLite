@@ -1,110 +1,157 @@
+/* Import Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
 /* Styles généraux */
-body {
-    font-family: 'Arial', sans-serif;
+* {
     margin: 0;
     padding: 0;
-    background-color: #f8f9fa;
-    color: #333;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
 }
 
 /* Header */
 header {
-    background-color: #343a40;
-    color: #ffffff;
-    padding: 15px 20px;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 20px;
     text-align: center;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
+h1 {
+    font-size: 28px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Navigation */
 nav {
     margin-top: 10px;
 }
 
 nav a {
-    color: #ffffff;
-    margin: 0 15px;
+    color: #ffcc00;
     text-decoration: none;
-    font-weight: bold;
-    transition: color 0.3s ease;
+    margin: 0 15px;
+    font-weight: 600;
+    transition: all 0.3s ease-in-out;
 }
 
 nav a:hover {
-    color: #f8d210;
+    color: #ffffff;
+    text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.8);
 }
 
 /* Contenu principal */
 main {
-    padding: 30px;
-    max-width: 1000px;
-    margin: auto;
-    background: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 100px;
+    width: 90%;
+    max-width: 1200px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 1s ease-in-out;
 }
 
-/* Tableaux */
+/* Tableaux stylés */
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
-    background: #fff;
-    border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
 }
 
 th, td {
-    border: 1px solid #ddd;
     padding: 12px;
     text-align: left;
 }
 
 th {
-    background-color: #007bff;
-    color: white;
+    background: #ffcc00;
+    color: #222;
+    text-transform: uppercase;
 }
 
-tr:nth-child(even) {
-    background-color: #f2f2f2;
+td {
+    background: rgba(255, 255, 255, 0.2);
 }
 
-tr:hover {
-    background-color: #d6e9ff;
+tr:nth-child(even) td {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+tr:hover td {
+    background: rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease-in-out;
 }
 
 /* Messages flash */
 .flash-messages {
-    background-color: #f8d7da;
-    color: #721c24;
+    background-color: rgba(255, 99, 71, 0.9);
+    color: white;
     padding: 15px;
     margin-bottom: 20px;
-    border: 1px solid #f5c6cb;
     border-radius: 5px;
     text-align: center;
     font-weight: bold;
+    box-shadow: 0px 5px 15px rgba(255, 99, 71, 0.5);
 }
 
 /* Boutons */
 button, .btn {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+    background: linear-gradient(45deg, #ffcc00, #ff8800);
+    color: black;
+    padding: 12px 18px;
     font-size: 16px;
-    transition: background 0.3s ease;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, background 0.3s ease-in-out;
 }
 
 button:hover, .btn:hover {
-    background-color: #0056b3;
+    background: linear-gradient(45deg, #ff8800, #ffcc00);
+    transform: scale(1.05);
 }
 
-/* Pied de page */
+/* Footer */
 footer {
+    width: 100%;
     text-align: center;
     padding: 15px;
-    background-color: #343a40;
-    color: white;
-    margin-top: 30px;
+    background: rgba(0, 0, 0, 0.8);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}
+
+/* Animation Fade In */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
