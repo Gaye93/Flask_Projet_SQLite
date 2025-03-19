@@ -1,56 +1,110 @@
+/* Styles généraux */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    background-color: #f8f9fa;
+    color: #333;
 }
 
+/* Header */
 header {
-    background-color: #333;
-    color: #fff;
-    padding: 10px 20px;
+    background-color: #343a40;
+    color: #ffffff;
+    padding: 15px 20px;
     text-align: center;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+nav {
+    margin-top: 10px;
 }
 
 nav a {
-    color: #fff;
-    margin: 0 10px;
+    color: #ffffff;
+    margin: 0 15px;
     text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
 }
 
+nav a:hover {
+    color: #f8d210;
+}
+
+/* Contenu principal */
 main {
-    padding: 20px;
+    padding: 30px;
+    max-width: 1000px;
+    margin: auto;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Tableaux */
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 th, td {
     border: 1px solid #ddd;
-    padding: 8px;
+    padding: 12px;
     text-align: left;
 }
 
 th {
-    background-color: #f2f2f2;
+    background-color: #007bff;
+    color: white;
 }
 
 tr:nth-child(even) {
-    background-color: #f9f9f9;
+    background-color: #f2f2f2;
 }
 
 tr:hover {
-    background-color: #ddd;
+    background-color: #d6e9ff;
 }
 
+/* Messages flash */
 .flash-messages {
     background-color: #f8d7da;
     color: #721c24;
-    padding: 10px;
+    padding: 15px;
     margin-bottom: 20px;
     border: 1px solid #f5c6cb;
-    border-radius: 4px;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Boutons */
+button, .btn {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
+}
+
+button:hover, .btn:hover {
+    background-color: #0056b3;
+}
+
+/* Pied de page */
+footer {
+    text-align: center;
+    padding: 15px;
+    background-color: #343a40;
+    color: white;
+    margin-top: 30px;
 }
