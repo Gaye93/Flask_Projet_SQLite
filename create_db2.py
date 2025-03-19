@@ -26,6 +26,27 @@ livres = [
 for livre in livres:
     cur.execute("INSERT OR IGNORE INTO Livres (titre, auteur, isbn, genre, date_publication, quantite_disponible) VALUES (?, ?, ?, ?, ?, ?)", livre)
 
+# Liste des utilisateurs à insérer
+utilisateurs = [
+    ('Dupont', 'Jean', 'jean.dupont@example.com', 'motdepasse123'),
+    ('Martin', 'Alice', 'alice.martin@example.com', 'motdepasse456'),
+    ('Durand', 'Pierre', 'pierre.durand@example.com', 'motdepasse789'),
+]
+
+# Insertion des utilisateurs avec INSERT OR IGNORE
+for utilisateur in utilisateurs:
+    cur.execute("INSERT OR IGNORE INTO Utilisateurs (nom, prenom, email, mot_de_passe) VALUES (?, ?, ?, ?)", utilisateur)
+
+# Liste des emprunts à insérer
+emprunts = [
+    (1, 1),  # Utilisateur 1 emprunte le livre 1
+    (2, 3),  # Utilisateur 2 emprunte le livre 3
+]
+
+# Insertion des emprunts avec INSERT OR IGNORE
+for emprunt in emprunts:
+    cur.execute("INSERT OR IGNORE INTO Emprunts (id_utilisateur, id_livre) VALUES (?, ?)", emprunt)
+
 # Validation des changements
 connection.commit()
 
