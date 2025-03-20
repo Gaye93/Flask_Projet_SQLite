@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 import sqlite3
+from functools import wraps
 
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'  # Clé secrète pour les sessions
@@ -29,32 +30,27 @@ def hello_world():
 @app.route('/authentification', methods=['GET', 'POST'])
 def authentification():
     if request.method == 'POST':
-        # Vérifier les identifiants
         if request.form['username'] == 'admin' and request.form['password'] == 'password':  # password à cacher par la suite
             session['authentifie'] = True
-            # Rediriger vers la route lecture après une authentification réussie
             return redirect(url_for('lecture'))
         else:
-            # Afficher un message d'erreur si les identifiants sont incorrects
             return render_template('formulaire_authentification.html', error=True)
-
     return render_template('formulaire_authentification.html', error=False)
 
 # Fiche client
 @app.route('/fiche_client/<int:post_id>')
 def Readfiche(post_id):
-    conn = get_db_database()  # Utiliser database.db
+    conn = get_db_database()
     cursor = conn.cursor()
     cursor.execute('SELECT * FROM clients WHERE id = ?', (post_id,))
     data = cursor.fetchall()
     conn.close()
-    # Rendre le template HTML et transmettre les données
     return render_template('read_data.html', data=data)
 
 # Consultation des clients
 @app.route('/consultation/')
 def ReadBDD():
-    conn = get_db_database()  # Utiliser database.db
+    conn = get_db_database()
     cursor = conn.cursor()
     cursor.execute('SELECT * FROM clients;')
     data = cursor.fetchall()
@@ -64,25 +60,20 @@ def ReadBDD():
 # Enregistrer un client
 @app.route('/enregistrer_client', methods=['GET'])
 def formulaire_client():
-    return render_template('formulaire.html')  # afficher le formulaire
+    return render_template('formulaire.html') 
 
 @app.route('/enregistrer_client', methods=['POST'])
 def enregistrer_client():
     nom = request.form['nom']
     prenom = request.form['prenom']
-
-    # Connexion à la base de données database.db
     conn = get_db_database()
     cursor = conn.cursor()
-
-    # Exécution de la requête SQL pour insérer un nouveau client
     cursor.execute('INSERT INTO clients (created, nom, prenom, adresse) VALUES (?, ?, ?, ?)', (1002938, nom, prenom, "ICI"))
     conn.commit()
     conn.close()
-    return redirect('/consultation/')  # Rediriger vers la page d'accueil après l'enregistrement
+    return redirect('/consultation/') 
 
-
-# Décorateur pour vérifier l'authentification
+# Décorateurs pour vérifier l'authentification et rôle administrateur
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -92,7 +83,6 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-# Décorateur pour vérifier le rôle administrateur
 def admin_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -102,7 +92,6 @@ def admin_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-# Page d'accueil
 @app.route('/accueil')
 def accueil():
     return render_template('base.html')
@@ -136,7 +125,6 @@ def ajouter_livre():
         conn.close()
         flash('Livre ajouté avec succès !', 'success')
         return redirect(url_for('livres'))
-
     return render_template('ajouter_livre.html')
 
 # Supprimer un livre
@@ -162,7 +150,6 @@ def recherche_livre():
                              (f'%{mot_cle}%', f'%{mot_cle}%')).fetchall()
         conn.close()
         return render_template('recherche_livre.html', livres=livres)
-
     return render_template('recherche_livre.html')
 
 # Emprunter un livre
@@ -170,7 +157,7 @@ def recherche_livre():
 @login_required
 def emprunter_livre(id):
     if request.method == 'POST':
-        utilisateur_id = session['user_id']  # Utiliser l'ID de l'utilisateur connecté
+        utilisateur_id = session['user_id']  
         conn = get_db_bibliotheque()
         livre = conn.execute('SELECT * FROM Livres WHERE id = ?', (id,)).fetchone()
 
@@ -187,59 +174,6 @@ def emprunter_livre(id):
         return redirect(url_for('livres'))
 
     return render_template('emprunter_livre.html', livre_id=id)
-
-# Gestion des utilisateurs
-@app.route('/gestion_utilisateurs')
-@login_required
-@admin_required
-def gestion_utilisateurs():
-    conn = get_db_bibliotheque()
-    utilisateurs = conn.execute('''
-        SELECT 
-            Utilisateurs.id,
-            Utilisateurs.nom,
-            Utilisateurs.prenom,
-            Utilisateurs.email,
-            COUNT(Emprunts.id_livre) AS nombre_livres_empruntes,
-            GROUP_CONCAT(Livres.titre, ", ") AS livres_empruntes
-        FROM 
-            Utilisateurs
-        LEFT JOIN 
-            Emprunts ON Utilisateurs.id = Emprunts.id_utilisateur
-        LEFT JOIN 
-            Livres ON Emprunts.id_livre = Livres.id
-        GROUP BY 
-            Utilisateurs.id;
-    ''').fetchall()
-    conn.close()
-    return render_template('gestion_utilisateurs.html', utilisateurs=utilisateurs)
-
-# Rechercher un utilisateur
-@app.route('/recherche_utilisateur', methods=['GET', 'POST'])
-@login_required
-@admin_required
-def recherche_utilisateur():
-    if request.method == 'POST':
-        mot_cle = request.form['mot_cle']
-        conn = get_db_bibliotheque()
-        utilisateurs = conn.execute(
-            'SELECT * FROM Utilisateurs WHERE nom LIKE ? OR prenom LIKE ? OR email LIKE ?',
-            (f'%{mot_cle}%', f'%{mot_cle}%', f'%{mot_cle}%')
-        ).fetchall()
-        conn.close()
-        return render_template('recherche_utilisateur.html', utilisateurs=utilisateurs)
-
-    return render_template('recherche_utilisateur.html')
-
-# Gestion des stocks
-@app.route('/gestion_stocks')
-@login_required
-@admin_required
-def gestion_stocks():
-    conn = get_db_bibliotheque()
-    stocks = conn.execute('SELECT * FROM Livres').fetchall()
-    conn.close()
-    return render_template('gestion_stocks.html', stocks=stocks)
 
 # Connexion
 @app.route('/login', methods=['GET', 'POST'])
