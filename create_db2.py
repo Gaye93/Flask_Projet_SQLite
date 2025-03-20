@@ -26,21 +26,28 @@ livres = [
 for livre in livres:
     cur.execute("INSERT OR IGNORE INTO Livres (titre, auteur, isbn, genre, date_publication, quantite_disponible) VALUES (?, ?, ?, ?, ?, ?)", livre)
 
-# Liste des utilisateurs à insérer
+# Liste des utilisateurs à insérer (avec des administrateurs)
 utilisateurs = [
-    ('Dupont', 'Jean', 'jean.dupont@example.com', 'motdepasse123'),
-    ('Martin', 'Alice', 'alice.martin@example.com', 'motdepasse456'),
-    ('Durand', 'Pierre', 'pierre.durand@example.com', 'motdepasse789'),
+    ('Dupont', 'Jean', 'jean.dupont@example.com', 'motdepasse123', 'utilisateur'),
+    ('Martin', 'Alice', 'alice.martin@example.com', 'motdepasse456', 'utilisateur'),
+    ('Durand', 'Pierre', 'pierre.durand@example.com', 'motdepasse789', 'utilisateur'),
+    ('Admin', 'Super', 'admin.super@example.com', 'adminpass1', 'administrateur'),
+    ('Lemoine', 'Sophie', 'sophie.lemoine@example.com', 'adminpass2', 'administrateur'),
+    ('Garnier', 'Luc', 'luc.garnier@example.com', 'userpass1', 'utilisateur'),
+    ('Bernard', 'Emma', 'emma.bernard@example.com', 'userpass2', 'utilisateur'),
 ]
 
 # Insertion des utilisateurs avec INSERT OR IGNORE
 for utilisateur in utilisateurs:
-    cur.execute("INSERT OR IGNORE INTO Utilisateurs (nom, prenom, email, mot_de_passe) VALUES (?, ?, ?, ?)", utilisateur)
+    cur.execute("INSERT OR IGNORE INTO Utilisateurs (nom, prenom, email, mot_de_passe, role) VALUES (?, ?, ?, ?, ?)", utilisateur)
 
 # Liste des emprunts à insérer
 emprunts = [
     (1, 1),  # Utilisateur 1 emprunte le livre 1
     (2, 3),  # Utilisateur 2 emprunte le livre 3
+    (3, 5),  # Utilisateur 3 emprunte le livre 5
+    (4, 2),  # Admin 1 emprunte le livre 2 (ils peuvent aussi emprunter)
+    (5, 7),  # Admin 2 emprunte le livre 7
 ]
 
 # Insertion des emprunts avec INSERT OR IGNORE
