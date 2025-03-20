@@ -1,5 +1,26 @@
 /* Import Google Font */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Variables CSS */
+:root {
+    --primary-color: #ffcc00;
+    --secondary-color: #ff8800;
+    --background-gradient: linear-gradient(135deg, #1e3c72, #2a5298);
+    --text-color: #ffffff;
+    --header-bg: rgba(0, 0, 0, 0.8);
+    --table-header-bg: #ffcc00;
+    --table-header-text: #222;
+    --table-row-bg: rgba(255, 255, 255, 0.1);
+    --table-row-hover: rgba(255, 255, 255, 0.3);
+    --flash-bg: rgba(255, 99, 71, 0.9);
+    --flash-text: white;
+    --button-gradient: linear-gradient(45deg, #ffcc00, #ff8800);
+    --button-hover-gradient: linear-gradient(45deg, #ff8800, #ffcc00);
+    --footer-bg: rgba(0, 0, 0, 0.8);
+    --shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    --border-radius: 10px;
+    --transition: all 0.3s ease-in-out;
+}
 
 /* Styles généraux */
 * {
@@ -10,33 +31,35 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #1e3c72, #2a5298);
-    color: #ffffff;
+    background: var(--background-gradient);
+    color: var(--text-color);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     min-height: 100vh;
+    line-height: 1.6;
 }
 
 /* Header */
 header {
     width: 100%;
-    background: rgba(0, 0, 0, 0.7);
+    background: var(--header-bg);
     padding: 20px;
     text-align: center;
     position: fixed;
     top: 0;
     left: 0;
     z-index: 100;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: var(--shadow);
 }
 
 h1 {
     font-size: 28px;
-    font-weight: 600;
+    font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 2px;
+    color: var(--primary-color);
 }
 
 /* Navigation */
@@ -45,15 +68,15 @@ nav {
 }
 
 nav a {
-    color: #ffcc00;
+    color: var(--primary-color);
     text-decoration: none;
     margin: 0 15px;
     font-weight: 600;
-    transition: all 0.3s ease-in-out;
+    transition: var(--transition);
 }
 
 nav a:hover {
-    color: #ffffff;
+    color: var(--text-color);
     text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.8);
 }
 
@@ -65,7 +88,7 @@ main {
     background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(10px);
     padding: 20px;
-    border-radius: 10px;
+    border-radius: var(--border-radius);
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
     animation: fadeIn 1s ease-in-out;
 }
@@ -76,7 +99,8 @@ table {
     border-collapse: collapse;
     margin-top: 20px;
     overflow: hidden;
-    border-radius: 8px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
 }
 
 th, td {
@@ -85,51 +109,54 @@ th, td {
 }
 
 th {
-    background: #ffcc00;
-    color: #222;
+    background: var(--table-header-bg);
+    color: var(--table-header-text);
     text-transform: uppercase;
+    font-weight: 600;
 }
 
 td {
-    background: rgba(255, 255, 255, 0.2);
+    background: var(--table-row-bg);
 }
 
 tr:nth-child(even) td {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
 }
 
 tr:hover td {
-    background: rgba(255, 255, 255, 0.3);
-    transition: all 0.3s ease-in-out;
+    background: var(--table-row-hover);
+    transition: var(--transition);
 }
 
 /* Messages flash */
 .flash-messages {
-    background-color: rgba(255, 99, 71, 0.9);
-    color: white;
+    background-color: var(--flash-bg);
+    color: var(--flash-text);
     padding: 15px;
     margin-bottom: 20px;
-    border-radius: 5px;
+    border-radius: var(--border-radius);
     text-align: center;
     font-weight: bold;
     box-shadow: 0px 5px 15px rgba(255, 99, 71, 0.5);
+    animation: slideIn 0.5s ease-in-out;
 }
 
 /* Boutons */
 button, .btn {
-    background: linear-gradient(45deg, #ffcc00, #ff8800);
+    background: var(--button-gradient);
     color: black;
     padding: 12px 18px;
     font-size: 16px;
     font-weight: bold;
     border: none;
-    border-radius: 6px;
+    border-radius: var(--border-radius);
     cursor: pointer;
-    transition: transform 0.2s ease-in-out, background 0.3s ease-in-out;
+    transition: var(--transition);
+    box-shadow: var(--shadow);
 }
 
 button:hover, .btn:hover {
-    background: linear-gradient(45deg, #ff8800, #ffcc00);
+    background: var(--button-hover-gradient);
     transform: scale(1.05);
 }
 
@@ -138,13 +165,15 @@ footer {
     width: 100%;
     text-align: center;
     padding: 15px;
-    background: rgba(0, 0, 0, 0.8);
+    background: var(--footer-bg);
     position: fixed;
     bottom: 0;
     left: 0;
+    z-index: 100;
+    box-shadow: var(--shadow);
 }
 
-/* Animation Fade In */
+/* Animations */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -153,5 +182,42 @@ footer {
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 24px;
+    }
+
+    nav a {
+        margin: 0 10px;
+        font-size: 14px;
+    }
+
+    main {
+        margin-top: 80px;
+        padding: 15px;
+    }
+
+    th, td {
+        padding: 10px;
+    }
+
+    button, .btn {
+        padding: 10px 15px;
+        font-size: 14px;
     }
 }
