@@ -26,35 +26,31 @@ livres = [
 for livre in livres:
     cur.execute("INSERT OR IGNORE INTO Livres (titre, auteur, isbn, genre, date_publication, quantite_disponible) VALUES (?, ?, ?, ?, ?, ?)", livre)
 
-# Liste des utilisateurs à insérer (avec des administrateurs)
+# Liste des utilisateurs à insérer
 utilisateurs = [
-    ('Dupont', 'Jean', 'jean.dupont@example.com', 'motdepasse123', 'utilisateur'),
-    ('Martin', 'Alice', 'alice.martin@example.com', 'motdepasse456', 'utilisateur'),
-    ('Durand', 'Pierre', 'pierre.durand@example.com', 'motdepasse789', 'utilisateur'),
-    ('Admin', 'Super', 'admin.super@example.com', 'adminpass1', 'administrateur'),
-    ('Lemoine', 'Sophie', 'sophie.lemoine@example.com', 'adminpass2', 'administrateur'),
-    ('Garnier', 'Luc', 'luc.garnier@example.com', 'userpass1', 'utilisateur'),
-    ('Bernard', 'Emma', 'emma.bernard@example.com', 'userpass2', 'utilisateur'),
+    ('Dupont', 'Jean', 'jean.dupont@example.com', 'motdepasse123'),
+    ('Martin', 'Alice', 'alice.martin@example.com', 'motdepasse456'),
+    ('Durand', 'Pierre', 'pierre.durand@example.com', 'motdepasse789'),
 ]
 
 # Insertion des utilisateurs avec INSERT OR IGNORE
 for utilisateur in utilisateurs:
-    cur.execute("INSERT OR IGNORE INTO Utilisateurs (nom, prenom, email, mot_de_passe, role) VALUES (?, ?, ?, ?, ?)", utilisateur)
+    cur.execute("INSERT OR IGNORE INTO Utilisateurs (nom, prenom, email, mot_de_passe) VALUES (?, ?, ?, ?)", utilisateur)
 
 # Liste des emprunts à insérer
 emprunts = [
     (1, 1),  # Utilisateur 1 emprunte le livre 1
     (2, 3),  # Utilisateur 2 emprunte le livre 3
-    (3, 5),  # Utilisateur 3 emprunte le livre 5
-    (4, 2),  # Utilisateur 4 emprunte le livre 2
 ]
 
-# Insertion des emprunts
+# Insertion des emprunts avec INSERT OR IGNORE
 for emprunt in emprunts:
-    cur.execute("INSERT INTO Emprunts (id_utilisateur, id_livre) VALUES (?, ?)", emprunt)
+    cur.execute("INSERT OR IGNORE INTO Emprunts (id_utilisateur, id_livre) VALUES (?, ?)", emprunt)
 
-# Validation des changements et fermeture de la connexion
+# Validation des changements
 connection.commit()
+
+# Fermeture de la connexion
 connection.close()
 
-print("Base de données créée avec succès.")
+print("Base de données 'bibliotheque.db' initialisée avec succès et données de test insérées !")
