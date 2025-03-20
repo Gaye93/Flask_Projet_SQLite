@@ -73,42 +73,21 @@ def enregistrer_client():
     conn.close()
     return redirect('/consultation/') 
 
-# Décorateurs pour vérifier l'authentification et rôle administrateur
-def login_required(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if 'user_id' not in session:
-            flash('Vous devez être connecté pour accéder à cette page.', 'error')
-            return redirect(url_for('login'))
-        return f(*args, **kwargs)
-    return decorated_function
-
-def admin_required(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if 'role' not in session or session['role'] != 'administrateur':
-            flash('Accès refusé. Vous devez être administrateur.', 'error')
-            return redirect(url_for('accueil'))
-        return f(*args, **kwargs)
-    return decorated_function
-
+# Page d'accueil
 @app.route('/accueil')
 def accueil():
     return render_template('base.html')
 
 # Lister tous les livres
 @app.route('/livres')
-@login_required
 def livres():
-    conn = get_db_bibliotheque()
+    conn = get_db_bibliotheque()  # Utiliser bibliotheque.db
     livres = conn.execute('SELECT * FROM Livres').fetchall()
     conn.close()
     return render_template('livres.html', livres=livres)
 
 # Ajouter un livre
 @app.route('/ajouter_livre', methods=['GET', 'POST'])
-@login_required
-@admin_required
 def ajouter_livre():
     if request.method == 'POST':
         titre = request.form['titre']
@@ -118,47 +97,45 @@ def ajouter_livre():
         date_publication = request.form['date_publication']
         quantite_disponible = request.form['quantite_disponible']
 
-        conn = get_db_bibliotheque()
+        conn = get_db_bibliotheque()  # Utiliser bibliotheque.db
         conn.execute('INSERT INTO Livres (titre, auteur, isbn, genre, date_publication, quantite_disponible) VALUES (?, ?, ?, ?, ?, ?)',
                      (titre, auteur, isbn, genre, date_publication, quantite_disponible))
         conn.commit()
         conn.close()
-        flash('Livre ajouté avec succès !', 'success')
+        flash('Livre ajouté avec succès !')
         return redirect(url_for('livres'))
+
     return render_template('ajouter_livre.html')
 
 # Supprimer un livre
 @app.route('/supprimer_livre/<int:id>', methods=['POST'])
-@login_required
-@admin_required
 def supprimer_livre(id):
-    conn = get_db_bibliotheque()
+    conn = get_db_bibliotheque()  # Utiliser bibliotheque.db
     conn.execute('DELETE FROM Livres WHERE id = ?', (id,))
     conn.commit()
     conn.close()
-    flash('Livre supprimé avec succès !', 'success')
+    flash('Livre supprimé avec succès !')
     return redirect(url_for('livres'))
 
 # Rechercher des livres
 @app.route('/recherche_livre', methods=['GET', 'POST'])
-@login_required
 def recherche_livre():
     if request.method == 'POST':
         mot_cle = request.form['mot_cle']
-        conn = get_db_bibliotheque()
+        conn = get_db_bibliotheque()  # Utiliser bibliotheque.db
         livres = conn.execute('SELECT * FROM Livres WHERE titre LIKE ? OR auteur LIKE ?', 
                              (f'%{mot_cle}%', f'%{mot_cle}%')).fetchall()
         conn.close()
         return render_template('recherche_livre.html', livres=livres)
+
     return render_template('recherche_livre.html')
 
 # Emprunter un livre
 @app.route('/emprunter_livre/<int:id>', methods=['GET', 'POST'])
-@login_required
 def emprunter_livre(id):
     if request.method == 'POST':
-        utilisateur_id = session['user_id']  
-        conn = get_db_bibliotheque()
+        utilisateur_id = request.form['utilisateur_id']
+        conn = get_db_bibliotheque()  # Utiliser bibliotheque.db
         livre = conn.execute('SELECT * FROM Livres WHERE id = ?', (id,)).fetchone()
 
         if livre['quantite_disponible'] > 0:
@@ -166,45 +143,61 @@ def emprunter_livre(id):
             conn.execute('INSERT INTO Emprunts (id_utilisateur, id_livre) VALUES (?, ?)', 
                          (utilisateur_id, id))
             conn.commit()
-            flash('Livre emprunté avec succès !', 'success')
+            flash('Livre emprunté avec succès !')
         else:
-            flash('Ce livre n\'est plus disponible.', 'error')
+            flash('Ce livre n\'est plus disponible.')
 
         conn.close()
         return redirect(url_for('livres'))
 
     return render_template('emprunter_livre.html', livre_id=id)
 
-# Connexion
-@app.route('/login', methods=['GET', 'POST'])
-def login():
+# Gestion des utilisateurs
+@app.route('/gestion_utilisateurs')
+def gestion_utilisateurs():
+    conn = get_db_bibliotheque()  # Utiliser bibliotheque.db
+    utilisateurs = conn.execute('''
+        SELECT 
+            Utilisateurs.id,
+            Utilisateurs.nom,
+            Utilisateurs.prenom,
+            Utilisateurs.email,
+            COUNT(Emprunts.id_livre) AS nombre_livres_empruntes,
+            GROUP_CONCAT(Livres.titre, ", ") AS livres_empruntes
+        FROM 
+            Utilisateurs
+        LEFT JOIN 
+            Emprunts ON Utilisateurs.id = Emprunts.id_utilisateur
+        LEFT JOIN 
+            Livres ON Emprunts.id_livre = Livres.id
+        GROUP BY 
+            Utilisateurs.id;
+    ''').fetchall()
+    conn.close()
+    return render_template('gestion_utilisateurs.html', utilisateurs=utilisateurs)
+
+# Rechercher un utilisateur
+@app.route('/recherche_utilisateur', methods=['GET', 'POST'])
+def recherche_utilisateur():
     if request.method == 'POST':
-        email = request.form['email']
-        mot_de_passe = request.form['mot_de_passe']
-
-        conn = get_db_bibliotheque()
-        utilisateur = conn.execute(
-            'SELECT * FROM Utilisateurs WHERE email = ? AND mot_de_passe = ?',
-            (email, mot_de_passe)
-        ).fetchone()
+        mot_cle = request.form['mot_cle']
+        conn = get_db_bibliotheque()  # Utiliser bibliotheque.db
+        utilisateurs = conn.execute(
+            'SELECT * FROM Utilisateurs WHERE nom LIKE ? OR prenom LIKE ? OR email LIKE ?',
+            (f'%{mot_cle}%', f'%{mot_cle}%', f'%{mot_cle}%')
+        ).fetchall()
         conn.close()
+        return render_template('recherche_utilisateur.html', utilisateurs=utilisateurs)
 
-        if utilisateur:
-            session['user_id'] = utilisateur['id']
-            session['role'] = utilisateur['role']
-            flash('Connexion réussie !', 'success')
-            return redirect(url_for('accueil'))
-        else:
-            flash('Email ou mot de passe incorrect.', 'error')
+    return render_template('recherche_utilisateur.html')
 
-    return render_template('login.html')
-
-# Déconnexion
-@app.route('/logout')
-def logout():
-    session.clear()
-    flash('Vous avez été déconnecté.', 'success')
-    return redirect(url_for('accueil'))
+# Gestion des stocks
+@app.route('/gestion_stocks')
+def gestion_stocks():
+    conn = get_db_bibliotheque()  # Utiliser bibliotheque.db
+    stocks = conn.execute('SELECT * FROM Livres').fetchall()
+    conn.close()
+    return render_template('gestion_stocks.html', stocks=stocks)
 
 if __name__ == "__main__":
     app.run(debug=True)
