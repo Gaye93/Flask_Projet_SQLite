@@ -3,21 +3,21 @@
 
 /* Variables CSS */
 :root {
-    --primary-color: #ffcc00;
-    --secondary-color: #ff8800;
-    --background-gradient: linear-gradient(135deg, #1e3c72, #2a5298);
-    --text-color: #ffffff;
-    --header-bg: rgba(0, 0, 0, 0.85);
-    --table-header-bg: #ffcc00;
-    --table-header-text: #222;
-    --table-row-bg: rgba(255, 255, 255, 0.1);
-    --table-row-hover: rgba(255, 255, 255, 0.3);
-    --flash-bg: rgba(255, 99, 71, 0.9);
+    --primary-color: #8B5E3B;
+    --secondary-color: #D2B48C;
+    --background-gradient: linear-gradient(135deg, #FAF3E0, #E6D5B8);
+    --text-color: #4A3626;
+    --header-bg: rgba(139, 94, 59, 0.9);
+    --table-header-bg: #D2B48C;
+    --table-header-text: #4A3626;
+    --table-row-bg: rgba(139, 94, 59, 0.1);
+    --table-row-hover: rgba(139, 94, 59, 0.2);
+    --flash-bg: rgba(139, 69, 19, 0.9);
     --flash-text: white;
-    --button-gradient: linear-gradient(45deg, #ffcc00, #ff8800);
-    --button-hover-gradient: linear-gradient(45deg, #ff8800, #ffcc00);
-    --footer-bg: rgba(0, 0, 0, 0.85);
-    --shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    --button-gradient: linear-gradient(45deg, #D2B48C, #8B5E3B);
+    --button-hover-gradient: linear-gradient(45deg, #8B5E3B, #D2B48C);
+    --footer-bg: rgba(139, 94, 59, 0.9);
+    --shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     --border-radius: 10px;
     --transition: all 0.25s ease-in-out;
 }
@@ -78,7 +78,7 @@ nav a {
 
 nav a:hover {
     color: var(--text-color);
-    text-shadow: 0px 0px 8px rgba(255, 255, 255, 0.8);
+    text-shadow: 0px 0px 8px rgba(74, 54, 38, 0.8);
 }
 
 /* Contenu principal */
@@ -86,11 +86,11 @@ main {
     margin-top: 100px;
     width: 100%;
     max-width: 1100px;
-    background: rgba(255, 255, 255, 0.12);
+    background: rgba(245, 222, 179, 0.5);
     backdrop-filter: blur(12px);
     padding: 20px;
     border-radius: var(--border-radius);
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15);
     animation: fadeIn 0.8s ease-in-out;
 }
 
@@ -121,7 +121,7 @@ td {
 }
 
 tr:nth-child(even) td {
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(139, 94, 59, 0.08);
 }
 
 tr:hover td {
@@ -138,7 +138,7 @@ tr:hover td {
     border-radius: var(--border-radius);
     text-align: center;
     font-weight: bold;
-    box-shadow: 0px 5px 12px rgba(255, 99, 71, 0.5);
+    box-shadow: 0px 5px 12px rgba(139, 69, 19, 0.5);
     animation: slideIn 0.5s ease-in-out;
 }
 
@@ -172,53 +172,4 @@ footer {
     left: 0;
     z-index: 100;
     box-shadow: var(--shadow);
-}
-
-/* Animations */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateX(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    h1 {
-        font-size: 22px;
-    }
-    
-    nav a {
-        margin: 0 8px;
-        font-size: 14px;
-    }
-    
-    main {
-        margin-top: 90px;
-        padding: 15px;
-    }
-    
-    th, td {
-        padding: 10px;
-    }
-    
-    button, .btn {
-        padding: 10px 14px;
-        font-size: 14px;
-    }
 }
