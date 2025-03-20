@@ -136,6 +136,9 @@ Séquence 6 : Le projet de bibliothèque
 ---------------------------------------------------
 Objectif : Créer une application de biliothèque  
 Difficulté : Moyenne (~180 minutes)
+
+Pour avoir accès à mon application de bibliothèque: **/accueil**
+PS: Bientot de nouvelles fonctionnalités (login, inscription, compte admin..) 
 ---------------------------------------------------
 Votre projet consiste à present à concevoir et développer une application de gestion de bibliothèque moderne qui simplifie le processus de prêt et de retour de livres. Les fonctionnalités attendues dans le cadre de ce projet sont les suivantes :  
 •	L’enregistrement et la suppression de livres.  
