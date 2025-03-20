@@ -46,18 +46,15 @@ emprunts = [
     (1, 1),  # Utilisateur 1 emprunte le livre 1
     (2, 3),  # Utilisateur 2 emprunte le livre 3
     (3, 5),  # Utilisateur 3 emprunte le livre 5
-    (4, 2),  # Admin 1 emprunte le livre 2 (ils peuvent aussi emprunter)
-    (5, 7),  # Admin 2 emprunte le livre 7
+    (4, 2),  # Utilisateur 4 emprunte le livre 2
 ]
 
-# Insertion des emprunts avec INSERT OR IGNORE
+# Insertion des emprunts
 for emprunt in emprunts:
-    cur.execute("INSERT OR IGNORE INTO Emprunts (id_utilisateur, id_livre) VALUES (?, ?)", emprunt)
+    cur.execute("INSERT INTO Emprunts (id_utilisateur, id_livre) VALUES (?, ?)", emprunt)
 
-# Validation des changements
+# Validation des changements et fermeture de la connexion
 connection.commit()
-
-# Fermeture de la connexion
 connection.close()
 
-print("Base de données 'bibliotheque.db' initialisée avec succès et données de test insérées !")
+print("Base de données créée avec succès.")
