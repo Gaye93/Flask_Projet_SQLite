@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Profil</h2>
+    <form method="POST">
+        <label for="nouveau_mot_de_passe">Nouveau mot de passe :</label>
+        <input type="password" id="nouveau_mot_de_passe" name="nouveau_mot_de_passe" required>
+        
+        <button type="submit">Mettre à jour</button>
+    </form>
+{% endblock %}
