@@ -12,16 +12,18 @@
         <nav>
             <a href="{{ url_for('accueil') }}">Accueil</a>
             <a href="{{ url_for('livres') }}">Livres</a>
-            <a href="{{ url_for('gestion_utilisateurs') }}">Utilisateurs</a>
-            <a href="{{ url_for('gestion_stocks') }}">Stocks</a>
+            {% if session.get('role') == 'administrateur' %}
+                <a href="{{ url_for('gestion_utilisateurs') }}">Utilisateurs</a>
+                <a href="{{ url_for('gestion_stocks') }}">Stocks</a>
+            {% endif %}
             <a href="{{ url_for('recherche_livre') }}">Rechercher un livre</a>
-            <a href="{{ url_for('recherche_utilisateur') }}">Rechercher un utilisateur</a>
-            
-            {% if not est_authentifie() %}
-                <a href="{{ url_for('login') }}">Se connecter</a>
-                <a href="{{ url_for('inscription') }}">S'inscrire</a>
+            {% if session.get('role') == 'administrateur' %}
+                <a href="{{ url_for('recherche_utilisateur') }}">Rechercher un utilisateur</a>
+            {% endif %}
+            {% if session.get('user_id') %}
+                <a href="{{ url_for('logout') }}">Déconnexion</a>
             {% else %}
-                <a href="{{ url_for('logout') }}">Se déconnecter</a>
+                <a href="{{ url_for('login') }}">Connexion</a>
             {% endif %}
         </nav>
     </header>
@@ -36,7 +38,6 @@
                 </div>
             {% endif %}
         {% endwith %}
-        
         {% block content %}{% endblock %}
     </main>
 
