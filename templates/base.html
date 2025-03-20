@@ -5,20 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bibliothèque en ligne</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <style>
-        /* Styles pour centrer l'image */
-        .image-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh; /* Prend toute la hauteur de la page */
-        }
-
-        .image-container img {
-            max-width: 100%;
-            max-height: 100%;
-        }
-    </style>
 </head>
 <body>
     <header>
@@ -37,11 +23,6 @@
             {% endif %}
         </nav>
     </header>
-
-    <!-- Conteneur pour l'image centrée -->
-    <div class="image-container">
-        <img src="{{ url_for('static', filename='livres_img.jpg') }}" alt="Logo de la bibliothèque">
-    </div>
 
     <main>
         {% with messages = get_flashed_messages(with_categories=true) %}
