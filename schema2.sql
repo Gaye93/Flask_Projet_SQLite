@@ -1,4 +1,3 @@
--- schema2.sql
 CREATE TABLE IF NOT EXISTS Livres (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     titre TEXT NOT NULL,
@@ -14,7 +13,7 @@ CREATE TABLE IF NOT EXISTS Utilisateurs (
     nom TEXT NOT NULL,
     prenom TEXT NOT NULL,
     email TEXT UNIQUE NOT NULL,
-    mot_de_passe TEXT NOT NULL,
+    mot_de_passe TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Emprunts (
