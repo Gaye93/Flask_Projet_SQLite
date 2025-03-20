@@ -15,7 +15,6 @@ CREATE TABLE IF NOT EXISTS Utilisateurs (
     prenom TEXT NOT NULL,
     email TEXT UNIQUE NOT NULL,
     mot_de_passe TEXT NOT NULL,
-    role TEXT CHECK(role IN ('utilisateur', 'administrateur')) DEFAULT 'utilisateur'
 );
 
 CREATE TABLE IF NOT EXISTS Emprunts (
