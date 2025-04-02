@@ -3,23 +3,27 @@
 
 /* Variables CSS */
 :root {
-    --primary-color: #6D4C41;
-    --secondary-color: #D7B899;
-    --background-gradient: linear-gradient(135deg, #FAF3E0, #E6D5B8);
-    --text-color: #4A3626;
-    --header-bg: rgba(109, 76, 65, 0.95);
-    --table-header-bg: #A1887F;
-    --table-header-text: #FFFFFF;
-    --table-row-bg: rgba(109, 76, 65, 0.1);
-    --table-row-hover: rgba(109, 76, 65, 0.2);
-    --flash-bg: rgba(139, 69, 19, 0.9);
+    --primary-color: #4a6fa5;
+    --secondary-color: #88c0d0;
+    --background-color: #f8f9fa;
+    --background-gradient: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    --text-color: #2d3748;
+    --text-light: #4a5568;
+    --header-bg: #4a6fa5;
+    --table-header-bg: #4a6fa5;
+    --table-header-text: #ffffff;
+    --table-row-bg: #ffffff;
+    --table-row-hover: #f1f5f9;
+    --table-border: #e2e8f0;
+    --flash-bg: #48bb78;
     --flash-text: white;
-    --button-gradient: linear-gradient(45deg, #D7B899, #6D4C41);
-    --button-hover-gradient: linear-gradient(45deg, #6D4C41, #D7B899);
-    --footer-bg: rgba(109, 76, 65, 0.95);
-    --shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-    --border-radius: 12px;
-    --transition: all 0.3s ease-in-out;
+    --button-bg: #4a6fa5;
+    --button-hover: #3b5a8a;
+    --footer-bg: #4a6fa5;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-hover: 0 6px 8px rgba(0, 0, 0, 0.15);
+    --border-radius: 8px;
+    --transition: all 0.2s ease-in-out;
 }
 
 /* Styles généraux */
@@ -33,174 +37,218 @@ body {
     font-family: 'Poppins', sans-serif;
     background: var(--background-gradient);
     color: var(--text-color);
+    line-height: 1.6;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
     min-height: 100vh;
-    padding: 20px;
 }
 
 /* Header */
 header {
     width: 100%;
     background: var(--header-bg);
-    padding: 20px;
+    padding: 1.5rem;
     text-align: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 100;
     box-shadow: var(--shadow);
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
-h1 {
-    font-size: 28px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: #FFFFFF;
+h1, h2 {
+    color: white;
+    font-weight: 600;
+}
+
+h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
 }
 
 /* Navigation */
 nav {
-    margin-top: 10px;
+    margin-top: 1rem;
 }
 
 nav a {
-    color: #FFFFFF;
+    color: white;
     text-decoration: none;
-    margin: 0 15px;
-    font-weight: 600;
-    font-size: 18px;
+    margin: 0 1rem;
+    font-weight: 500;
     transition: var(--transition);
 }
 
 nav a:hover {
     color: var(--secondary-color);
-    text-shadow: 0px 0px 10px rgba(215, 184, 153, 0.8);
 }
 
 /* Contenu principal */
 main {
-    margin-top: 120px;
+    flex: 1;
     width: 100%;
     max-width: 1200px;
-    background: rgba(245, 222, 179, 0.7);
-    backdrop-filter: blur(12px);
-    padding: 25px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+}
+
+/* Formulaire de recherche */
+form {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+input[type="text"] {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--table-border);
     border-radius: var(--border-radius);
-    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
-    animation: fadeIn 0.8s ease-in-out;
+    font-size: 1rem;
+    transition: var(--transition);
 }
 
-/* Mise en page des livres sous forme de cartes */
-.book-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
-    margin-top: 20px;
+input[type="text"]:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.2);
 }
 
-.book-card {
-    background: white;
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow);
-    overflow: hidden;
-    transition: transform 0.3s ease;
-}
-
-.book-card:hover {
-    transform: scale(1.05);
-}
-
-.book-card img {
-    width: 100%;
-    height: 300px;
-    object-fit: cover;
-}
-
-.book-card .card-body {
-    padding: 20px;
-}
-
-.book-card h3 {
-    font-size: 20px;
-    font-weight: 600;
-    color: var(--primary-color);
-    margin-bottom: 10px;
-}
-
-.book-card p {
-    font-size: 16px;
-    color: var(--text-color);
-    margin-bottom: 15px;
-}
-
-.book-card .btn {
-    background: var(--button-gradient);
+/* Boutons */
+button, .btn {
+    background-color: var(--button-bg);
     color: white;
-    padding: 12px 18px;
-    font-size: 16px;
-    font-weight: bold;
+    padding: 0.75rem 1.5rem;
     border: none;
     border-radius: var(--border-radius);
     cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
     transition: var(--transition);
     box-shadow: var(--shadow);
-    width: 100%;
-    text-align: center;
 }
 
-.book-card .btn:hover {
-    background: var(--button-hover-gradient);
-    transform: scale(1.06);
+button:hover, .btn:hover {
+    background-color: var(--button-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
 }
 
-/* Messages flash */
-.flash-messages {
-    background-color: var(--flash-bg);
-    color: var(--flash-text);
-    padding: 15px;
-    margin-bottom: 20px;
+/* Lien Ajouter un livre */
+a[href*="ajouter_livre"] {
+    display: inline-block;
+    margin-bottom: 2rem;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.75rem 1.5rem;
     border-radius: var(--border-radius);
-    text-align: center;
-    font-weight: bold;
-    box-shadow: 0px 6px 14px rgba(139, 69, 19, 0.5);
-    animation: slideIn 0.5s ease-in-out;
+    text-decoration: none;
+    transition: var(--transition);
+    box-shadow: var(--shadow);
+}
+
+a[href*="ajouter_livre"]:hover {
+    background-color: var(--button-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+/* Tableau de livres */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    background-color: white;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+th, td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--table-border);
+}
+
+th {
+    background-color: var(--table-header-bg);
+    color: var(--table-header-text);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    position: sticky;
+    top: 0;
+}
+
+td {
+    background-color: var(--table-row-bg);
+    color: var(--text-light);
+}
+
+tr:hover td {
+    background-color: var(--table-row-hover);
+}
+
+/* Actions dans le tableau */
+td:last-child {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+td:last-child a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+td:last-child a:hover {
+    color: var(--button-hover);
+    text-decoration: underline;
+}
+
+td:last-child form {
+    margin: 0;
+}
+
+td:last-child button {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
 }
 
 /* Footer */
 footer {
     width: 100%;
     text-align: center;
-    padding: 15px;
+    padding: 1.5rem;
     background: var(--footer-bg);
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    z-index: 100;
-    box-shadow: var(--shadow);
     color: white;
+    margin-top: auto;
 }
 
-/* Animation for fade-in effect */
+/* Animations */
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes slideIn {
-    from {
-        transform: translateY(-50px);
-        opacity: 0;
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    main {
+        padding: 1rem;
     }
-    to {
-        transform: translateY(0);
-        opacity: 1;
+    
+    table {
+        display: block;
+        overflow-x: auto;
+    }
+    
+    form {
+        flex-direction: column;
     }
 }
